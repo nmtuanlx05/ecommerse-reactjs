@@ -10,7 +10,7 @@ const dataMenu = [
     { content: 'About us', href: '#' },
     { content: 'Contacts', href: '#' },
     { content: 'Search', href: '#' },
-    { content: 'Sign in', href: '#' }
+    { content: 'Sign In', href: '#' }
 ];
 
 export { dataBoxIcon, dataMenu };

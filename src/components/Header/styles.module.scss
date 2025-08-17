@@ -1,38 +1,52 @@
 @import '@styles/_mixins.module.scss';
 @import '@styles/_variable.module.scss';
 
+.container {
+    @include flex_box_custom(center, center, 0px);
+    // background-color: bisque;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
 .containerHeader {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     height: 83px;
-
-    
-    background-color: bisque;
+    width: 1250px;
 }
 
 .containerBoxIcon {
-     @include flex_box_custom(center, center , 10px);
+    @include flex_box_custom(center, center, 10px);
 }
 
 .containerBox {
-    @include flex_box_custom(center, center , 20px);
+    @include flex_box_custom(center, center, 20px);
 }
 
-.containerMenu{
-    @include flex_box_custom(center, center , 20px);
+.containerMenu {
+    @include flex_box_custom(center, center, 38px);
 }
 
 .boxIcon {
     @include radius_common(50%);
-    @include flex_box_custom(center , center , 0px);
-    background-color: $primary_color ;
+    @include flex_box_custom(center, center, 0px);
+    background-color: $primary_color;
     width: 26px;
     height: 26px;
 }
 
+.menu{
+    cursor: pointer;
+    padding-top: 10px;
+    font-size: 15px;
+    color: $primary_color;
+}
+
 .menu::after {
-    content: "";
+    content: '';
     display: block;
     height: 3px;
     background-color: $primary_color;
@@ -40,10 +54,9 @@
     transform: scale(0);
     opacity: 0;
     margin-top: 5px;
-    transition: transform 300ms , opacity 500ms;
-
+    transition: transform 300ms, opacity 500ms;
 }
 .menu:hover::after {
-    transform:scale(1);
-    opacity : 1 ;
+    transform: scale(1);
+    opacity: 1;
 }
