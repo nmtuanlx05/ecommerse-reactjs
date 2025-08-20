@@ -18,7 +18,6 @@ function Info() {
                     ))}
                 </div>
             </MainLayout>
-            ;
         </div>
     );
 }

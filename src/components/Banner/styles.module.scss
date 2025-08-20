@@ -15,6 +15,7 @@
     @include flex_box_custom(center, center, 10px);
 
     flex-direction: column;
+    z-index: 10;
 }
 
 .title {

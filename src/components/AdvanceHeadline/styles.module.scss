@@ -1,0 +1,33 @@
+@import '@styles/_variable.module.scss';
+@import '@styles/_mixins.module.scss';
+.container {
+    margin: 65px 0 15px;
+    @include flex_box_custom(center , center , 0px)
+}
+
+.headline {
+    height: 2px;
+    width: 100%;
+    border-top: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+    margin-top: 32px;
+}
+
+.containerMiddleBox {
+   line-height: 0px;
+    width: 80%;
+    @include flex_box_custom(center , center , 0px);
+    flex-direction: column;
+
+}
+
+.des {
+    font-size: 14px;
+    color: $thir_color;
+    text-transform: uppercase;
+}
+
+.title {
+    font-size: 24px;
+    color: $primary_color;
+}
