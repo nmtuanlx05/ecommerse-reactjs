@@ -13,7 +13,8 @@ function HomePage() {
                 <Banner />
                 <Info />
                 <AdvanceHeadline />
-                <HeadlineListProducts/>
+                <HeadlineListProducts />
+                <div style={{height : '200px'}}></div>
             </div>
         </div>
     );
