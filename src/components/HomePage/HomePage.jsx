@@ -4,8 +4,18 @@ import styles from './styles.module.scss';
 import Info from '@components/Info/Info';
 import AdvanceHeadline from '@components/AdvanceHeadline/AdvnceHeadline';
 import HeadlineListProducts from '@components/HeadlineListProducts/HeadlineListProducts';
+import PopularProduct from '@components/PopularProduct/PopularProduct';
+import { useEffect, useState } from 'react';
+import { getProduct } from '@/apis/productsService';
 function HomePage() {
+    const [listProducts, setListProducts] = useState([]);
+    useEffect(() => {
+        getProduct().then((res) => {
+            setListProducts(res.contents);
+        });
+    }, []);
     const { container } = styles;
+    console.log(listProducts);
     return (
         <div>
             <div className={container}>
@@ -13,8 +23,9 @@ function HomePage() {
                 <Banner />
                 <Info />
                 <AdvanceHeadline />
-                <HeadlineListProducts />
-                <div style={{height : '200px'}}></div>
+                <HeadlineListProducts data={listProducts.slice(1, 3)} />
+                <PopularProduct datas={listProducts.slice(3, 15)} />
+                <div style={{ height: '200px' }}></div>
             </div>
         </div>
     );

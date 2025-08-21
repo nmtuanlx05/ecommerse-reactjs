@@ -3,20 +3,23 @@ import reloadIcon from '@icons/svgs/reloadIcon.svg';
 import heart from '@icons/svgs/heartIcon.svg';
 import cart from '@icons/svgs/cartIcon.svg';
 
-function ProductItem({src , preSvrc , name , price }) {
-    const { boxImg, showImgWhenHover, showFnWhenHover , boxIcon , title , priceClass } = styles;
+function ProductItem({ src, preSvrc, name, price }) {
+    const {
+        boxImg,
+        showImgWhenHover,
+        showFnWhenHover,
+        boxIcon,
+        title,
+        priceClass
+    } = styles;
     return (
         <div>
             <div className={boxImg}>
                 <img
-                    src='https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min-285x340.jpg'
+                    src={src}
                     alt=''
                 />
-                <img
-                    src='https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.2-min-285x340.jpg'
-                    alt=''
-                    className={showImgWhenHover}
-                />
+                <img src={preSvrc} className={showImgWhenHover} />
                 <div className={showFnWhenHover}>
                     <div className={boxIcon}>
                         <img src={cart} alt='' />
@@ -32,8 +35,8 @@ function ProductItem({src , preSvrc , name , price }) {
                     </div>
                 </div>
             </div>
-            <div className={title}>10K Yellow Gold</div>
-            <div className={priceClass}>$99.99</div>
+            <div className={title}>{name}</div>
+            <div className={priceClass}>${price}</div>
         </div>
     );
 }
