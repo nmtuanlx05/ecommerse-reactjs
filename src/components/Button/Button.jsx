@@ -1,7 +1,17 @@
 import styles from './styles.module.scss';
-function Button({ content }) {
-    const { btn } = styles;
-    return <button className={btn}>{content}</button>;
+import classNames from 'classnames';
+function Button({ content, isPrinary = true }) {
+    const { btn, primaryBtn, secondaryBtn } = styles;
+    return (
+        <button
+            className={classNames(btn, {
+                [primaryBtn]: isPrinary,
+                [secondaryBtn]: !isPrinary
+            })}
+        >
+            {content}
+        </button>
+    );
 }
 
 export default Button;

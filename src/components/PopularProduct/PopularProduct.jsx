@@ -3,7 +3,6 @@ import styles from './styles.module.scss';
 import ProductItem from '@components/ProductItem/ProducyItem';
 function PopularProduct({datas}) {
     const { container } = styles;
-    console.log(datas, 'datas')
     return (
         <>
             <MainLayout>
