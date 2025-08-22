@@ -6,6 +6,9 @@ import logo from '@images/Logo-retina.webp';
 import reloadIcon from '@icons/svgs/reloadIcon.svg';
 import heart from '@icons/svgs/heartIcon.svg';
 import cart from '@icons/svgs/cartIcon.svg';
+import useScrollHandling from '@/hooks/useScrollHandling';
+import { useEffect, useState } from 'react';
+import classNames from 'classnames';
 
 function MyHeader() {
     const {
@@ -13,10 +16,27 @@ function MyHeader() {
         containerMenu,
         containerHeader,
         containerBox,
-        container
+        container,
+        fixedHeader, 
+        topHeader
     } = styles;
+
+    const {  scrollPosition } = useScrollHandling();
+
+    const [ fixedPosition, setFixedPosition ] = useState(false);
+
+    useEffect(() => {
+        // if (scrollPosition > 90) {
+        //     setFixedPosition(true)
+        // }else{
+        //     setFixedPosition(false)
+        // }
+
+        setFixedPosition(scrollPosition > 90 ? true : false)
+
+    }, [scrollPosition]);
     return (
-        <div className={container}>
+        <div className={classNames(container, topHeader, { [fixedHeader] : fixedPosition })}>
             <div className={containerHeader}>
                 <div className={containerBox}>
                     <div className={containerBoxIcon}>

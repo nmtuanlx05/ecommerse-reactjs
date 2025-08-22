@@ -4,10 +4,25 @@
 .container {
     @include flex_box_custom(center, center, 0px);
     // background-color: bisque;
-    position: absolute;
+
     top: 0;
     left: 0;
     right: 0;
+}
+
+.topHeader {
+    position: absolute;
+}
+
+.fixedHeader {
+    position: fixed;
+    top: -83px;
+    background-color: #ffffffe6;
+    z-index: 999;
+    box-shadow: 2px 0 12px 0 rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+    transform: translateY(83px);
+    transition: transform 0.5s ease;
 }
 
 .containerHeader {
@@ -20,6 +35,9 @@
 
 .containerBoxIcon {
     @include flex_box_custom(center, center, 10px);
+    img {
+        cursor: pointer;
+    }
 }
 
 .containerBox {
@@ -36,9 +54,10 @@
     background-color: $primary_color;
     width: 26px;
     height: 26px;
+    cursor: pointer;
 }
 
-.menu{
+.menu {
     cursor: pointer;
     padding-top: 10px;
     font-size: 15px;
