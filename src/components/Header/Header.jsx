@@ -7,9 +7,9 @@ import reloadIcon from '@icons/svgs/reloadIcon.svg';
 import heart from '@icons/svgs/heartIcon.svg';
 import cart from '@icons/svgs/cartIcon.svg';
 import useScrollHandling from '@/hooks/useScrollHandling';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
-
+import { SideBarContext } from '@/contexts/SideBarProvider';
 function MyHeader() {
     const {
         containerBoxIcon,
@@ -17,13 +17,13 @@ function MyHeader() {
         containerHeader,
         containerBox,
         container,
-        fixedHeader, 
+        fixedHeader,
         topHeader
     } = styles;
 
-    const {  scrollPosition } = useScrollHandling();
+    const { scrollPosition } = useScrollHandling();
 
-    const [ fixedPosition, setFixedPosition ] = useState(false);
+    const [fixedPosition, setFixedPosition] = useState(false);
 
     useEffect(() => {
         // if (scrollPosition > 90) {
@@ -32,11 +32,17 @@ function MyHeader() {
         //     setFixedPosition(false)
         // }
 
-        setFixedPosition(scrollPosition > 90 ? true : false)
-
+        setFixedPosition(scrollPosition > 90 ? true : false);
     }, [scrollPosition]);
+
+    const { isOpen, setIsOpen } = useContext(SideBarContext);
+    console.log(isOpen);
     return (
-        <div className={classNames(container, topHeader, { [fixedHeader] : fixedPosition })}>
+        <div
+            className={classNames(container, topHeader, {
+                [fixedHeader]: fixedPosition
+            })}
+        >
             <div className={containerHeader}>
                 <div className={containerBox}>
                     <div className={containerBoxIcon}>
@@ -63,7 +69,11 @@ function MyHeader() {
                 <div className={containerBox}>
                     <div className={containerMenu}>
                         {dataMenu.slice(3, 6).map((item) => (
-                            <Menu content={item.content} href={item.href} />
+                            <Menu
+                                content={item.content}
+                                href={item.href}
+                                setIsOpen={setIsOpen}
+                            />
                         ))}
                     </div>
                     <div className={containerBoxIcon}>

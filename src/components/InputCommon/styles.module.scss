@@ -1,0 +1,33 @@
+@import '@styles/_mixins.module.scss';
+@import '@styles/_variable.module.scss';
+.container {
+
+    margin-bottom: 25px;
+
+    .labelInput {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .boxInput {
+        position: relative;
+        width: 100%;
+
+        input{
+            border: 1px solid #e1e1e1;
+            width: 100%;
+            outline: none;
+            padding: 10px 0 10px 10px;
+            
+        }
+
+        .boxIcon{
+            position: absolute;
+            top: 12px ;
+            right: 0px;
+            cursor: pointer;
+        }
+
+    }
+}
