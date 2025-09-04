@@ -1,0 +1,28 @@
+@import '@styles/mixins.module.scss';
+
+.container {
+    @include flex_box_custom(space-between, unset, 0px);
+    flex-direction: column;
+    height: 97%;
+    color: #555;
+    font-size: 14px;
+
+    padding: 30px 20px 0 20px;
+
+    .total{
+        @include flex_box_custom(space-between, unset, 0px);
+    }
+
+    .cartBtn {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .boxBtn {
+        @include flex_box_custom(space-between, center, 8px);
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+
+}

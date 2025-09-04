@@ -2,7 +2,8 @@
 @import '@styles/_variable.module.scss';
 
 .btn {
-    @include btn(176px, 42px, 3px, $primary_color);
+    @include btn(auto, 42px, 3px, $primary_color);
+    min-width:176px ;
     font-size: 14px;
     font-weight: 400;
     cursor: pointer;
@@ -10,10 +11,6 @@
     &:hover {
         transition: all 300ms;
     }
-
-    // .fullWidth {
-    //     width: 100%;
-    // }
 }
 
 .primaryBtn {

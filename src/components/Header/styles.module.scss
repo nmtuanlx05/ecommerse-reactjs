@@ -34,8 +34,9 @@
 }
 
 .containerBoxIcon {
-    @include flex_box_custom(center, center, 10px);
-    img {
+    @include flex_box_custom(center, center, 17px);
+    
+    p{
         cursor: pointer;
     }
 }

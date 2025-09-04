@@ -1,0 +1,21 @@
+.container {
+    // .compareBtnWrapper {
+    //     width: 100%;
+    //     padding: 0 20px; // tạo khoảng trống với cạnh sidebar
+    //     box-sizing: border-box;
+    // }
+    height: 100%;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+
+    .compareBtnWrapper{
+        margin-top: auto;
+        margin-bottom: 20px;
+    }
+
+    .compareBtn {
+        width: 100%;
+        padding: 0 20px;
+    }
+}

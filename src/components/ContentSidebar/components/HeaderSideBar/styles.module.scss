@@ -1,0 +1,13 @@
+@import '@styles/_mixins.module.scss';
+
+.container {
+    @include flex_box_custom(center, center, 10px);
+    margin-top: 22px;
+    flex-direction: column;
+    color: #555;
+    cursor: pointer;
+    
+    font-size: 18px;
+
+    
+}
