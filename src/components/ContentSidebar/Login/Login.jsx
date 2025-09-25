@@ -3,20 +3,20 @@ import styles from './styles.module.scss';
 import Button from '@components/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { ToastContext } from '@/contexts/ToastProvider';
 import { register, signIn, getInfo } from '@/apis/authService';
 import Cookies from 'js-cookie';
-
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { StoreContext } from '@/contexts/StoreProvider';
 
 function Login() {
     const { container, title, boxRememberMe, lostPW } = styles;
     const [isRegister, setIsRegister] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useContext(ToastContext);
-    useEffect(() => {
-        getInfo()
-    }, []);
+    const { setIsOpen, handleGetListProductsCart } = useContext(SideBarContext);
+    const { setUserId } = useContext(StoreContext);
 
     const formik = useFormik({
         initialValues: {
@@ -58,9 +58,13 @@ function Login() {
                     .then((res) => {
                         setIsLoading(false);
                         const { id, token, refreshToken } = res.data;
-                     
+                        setUserId(id);
+                        Cookies.set('userId', id);
                         Cookies.set('token', token);
                         Cookies.set('refreshToken', refreshToken);
+                        toast.success('Sign in successfully!');
+                        setIsOpen(false);
+                        handleGetListProductsCart(id, 'cart');
                     })
                     .catch((err) => {
                         setIsLoading(false);

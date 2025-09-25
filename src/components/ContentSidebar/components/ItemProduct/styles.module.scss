@@ -30,20 +30,28 @@
             cursor: pointer;
         }
 
-        .size{
+        .size {
             color: #9e9e9e;
             margin-top: 7px;
             margin-bottom: 10px;
             font-size: 14px;
-
         }
-
 
         .price {
             font-size: 14px;
             color: #555;
             margin-bottom: 7px;
         }
+    }
+
+    .overlayLoading {
+        @include flex_box_custom(center, center, 0px);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
     }
 
     &:hover {

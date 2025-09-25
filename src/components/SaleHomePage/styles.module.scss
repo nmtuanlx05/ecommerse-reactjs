@@ -21,8 +21,10 @@
     }
 
     .boxBtn {
-        @include flex_box_custom(center, center, 0px);
-        margin-top: 30px;
+        // @include flex_box_custom(center, center, 0px);
+        margin: 30px auto 0 auto;
+        width: 168px;
+        height: 40px;
     }
 
     .boxImg {

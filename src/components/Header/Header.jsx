@@ -19,12 +19,15 @@ function MyHeader() {
         containerBox,
         container,
         fixedHeader,
-        topHeader
+        topHeader,
+        boxCart,
+        quantity
     } = styles;
 
     const { scrollPosition } = useScrollHandling();
     const [fixedPosition, setFixedPosition] = useState(false);
-    const { isOpen, setIsOpen, type, setType } = useContext(SideBarContext);
+    const { isOpen, setIsOpen, type, setType, listProductCart } =
+        useContext(SideBarContext);
 
     const handleOpenSideBar = (type) => {
         setIsOpen(true);
@@ -32,12 +35,6 @@ function MyHeader() {
     };
 
     useEffect(() => {
-        // if (scrollPosition > 90) {
-        //     setFixedPosition(true)
-        // }else{
-        //     setFixedPosition(false)
-        // }
-
         setFixedPosition(scrollPosition > 90 ? true : false);
     }, [scrollPosition]);
 
@@ -81,24 +78,25 @@ function MyHeader() {
                         ))}
                     </div>
                     <div className={containerBoxIcon}>
-                        <p>
-                            <TfiReload
-                                style={{ fontSize: '22px' }}
-                                onClick={() => handleOpenSideBar('compare')}
-                            />
-                        </p>
-                        <p>
-                            <CiHeart
-                                style={{ fontSize: '28px' }}
-                                onClick={() => handleOpenSideBar('wishlist')}
-                            />
-                        </p>
-                        <p>
+                        <TfiReload
+                            style={{ fontSize: '22px', cursor: 'pointer' }}
+                            onClick={() => handleOpenSideBar('compare')}
+                        />
+
+                        <CiHeart
+                            style={{ fontSize: '28px', cursor: 'pointer' }}
+                            onClick={() => handleOpenSideBar('wishlist')}
+                        />
+
+                        <div className={boxCart}>
                             <PiShoppingCartLight
-                                style={{ fontSize: '25px' }}
+                                style={{ fontSize: '25px', cursor: 'pointer' }}
                                 onClick={() => handleOpenSideBar('cart')}
                             />
-                        </p>
+                            <div className={quantity}>
+                                {listProductCart.length}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

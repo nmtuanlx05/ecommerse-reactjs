@@ -35,8 +35,8 @@
 
 .containerBoxIcon {
     @include flex_box_custom(center, center, 17px);
-    
-    p{
+
+    p {
         cursor: pointer;
     }
 }
@@ -63,6 +63,15 @@
     padding-top: 10px;
     font-size: 15px;
     color: $primary_color;
+    position: relative;
+
+    .subMenu {
+        position: absolute;
+        background-color: #fff;
+        top: 40px;
+        padding: 10px;
+        width: 100%;
+    }
 }
 
 .menu::after {
@@ -79,4 +88,22 @@
 .menu:hover::after {
     transform: scale(1);
     opacity: 1;
+}
+
+.boxCart {
+    position: relative;
+
+    .quantity {
+        position: absolute;
+        top: -5px;
+        right: -8px;
+        background-color: $primary_color;
+        color: #fff;
+        @include radius_common(50%);
+        width: 15px;
+        height: 15px;
+        @include flex_box_custom(center, center, 0px);
+        font-size: 10px;
+        cursor: pointer;
+    }
 }

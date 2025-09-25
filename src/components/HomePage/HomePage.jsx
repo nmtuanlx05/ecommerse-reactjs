@@ -12,7 +12,13 @@ import MyFooter from '@components/Footer/Footer';
 function HomePage() {
     const [listProducts, setListProducts] = useState([]);
     useEffect(() => {
-        getProduct().then((res) => {
+        const query = {
+            sortType: 0,
+            page: 1,
+            limit: 15
+        };
+
+        getProduct(query).then((res) => {
             setListProducts(res.contents);
         });
     }, []);
@@ -27,7 +33,7 @@ function HomePage() {
                 <HeadlineListProducts data={listProducts.slice(1, 3)} />
                 <PopularProduct datas={listProducts.slice(3, 15)} />
                 <SaleHomePage />
-                <MyFooter/>
+                <MyFooter />
             </div>
         </div>
     );

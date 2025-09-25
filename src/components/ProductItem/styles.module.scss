@@ -6,7 +6,7 @@
     height: 100%;
     position: relative;
     cursor: pointer;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 
     img {
         width: 100%;
@@ -39,7 +39,7 @@
     &:hover .showFnWhenHover {
         opacity: 1;
         right: 22px;
-        transition: opacity 500ms , right 300ms;
+        transition: opacity 500ms, right 300ms;
     }
 
     .boxIcon {
@@ -59,13 +59,70 @@
     }
 }
 
-.title{
+.title {
     color: $four_color;
     font-size: 16px;
-    margin:3px 0;
+    margin: 3px 0;
 }
-.priceClass{
+.priceClass {
     font-size: 14px;
     color: $thir_color;
     font-weight: 400;
+}
+
+.boxSize {
+    @include flex_box_custom(center, center, 10px);
+
+    .size {
+        @include flex_box_custom(center, center, 0px);
+
+        border: 1px solid #e1e1e1;
+        padding: 4px 6px;
+        font-size: 10px;
+        cursor: pointer;
+
+        &:hover {
+            border: 1px solid $primary_color;
+            transition: border 500ms;
+        }
+    }
+}
+
+.isActiveSize {
+    border: 1px solid $primary_color !important;
+}
+
+.btnClear {
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.boxBtn {
+    margin: 10px auto;
+    width: 140px;
+}
+
+.containerItem {
+    @include flex_box_custom(flex-start, center, 20px);
+    margin-top: 12px;
+
+    .content {
+        @include flex_box_custom(flex-start, flex-start, 10px);
+        flex-direction: column;
+    }
+
+    .leftbtn {
+        justify-content: flex-start;
+        margin: 0px;
+    }
+
+    .largImg {
+        width: 430px;
+    }
 }

@@ -16,6 +16,7 @@ function HeadlineListProducts({ data = [] }) {
                             preSvrc={item.images[1]}
                             name={item.name}
                             price={item.price}
+                            details={item}
                         />
                     ))}
                 </div>

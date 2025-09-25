@@ -14,5 +14,6 @@
     .boxBtn {
         @include flex_box_custom(space-between, unset, 10px);
         flex-direction: column;
+        margin-bottom: 20px;
     }
 }
