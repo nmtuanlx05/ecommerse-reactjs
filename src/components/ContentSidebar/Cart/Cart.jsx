@@ -38,7 +38,10 @@ function Cart() {
         return acc + item.total;
     }, 0);
 
-    console.log(subTotal);
+    const handleNavigateToCart = () => {
+        navigate('/cart');
+        setIsOpen(false);
+    };
 
     return (
         <div
@@ -81,6 +84,7 @@ function Cart() {
                             <Button
                                 content={'VIEW CART'}
                                 className={styles.cartBtn}
+                                onClick={handleNavigateToCart}
                             />
                             <Button
                                 content={'CHECKOUT'}

@@ -15,6 +15,10 @@ function OurShop() {
         navigate(-1);
     };
 
+    const handleNavigateToHome = () => {
+        navigate('/');
+    };
+
     return (
         <>
             <OurShopProvider>
@@ -23,8 +27,13 @@ function OurShop() {
                     <div className={container}>
                         <div className={functionBox}>
                             <div>
-                                <span className={btnBack}>Home</span> &gt;{' '}
-                                <span className={specialText}>Shop</span>
+                                <span
+                                    onClick={handleNavigateToHome}
+                                    className={btnBack}
+                                >
+                                    Home
+                                </span>{' '}
+                                &gt; <span className={specialText}>Shop</span>
                             </div>
                             <div
                                 className={btnBack}
