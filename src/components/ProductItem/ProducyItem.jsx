@@ -1,7 +1,4 @@
 import styles from './styles.module.scss';
-import reloadIcon from '@icons/svgs/reloadIcon.svg';
-import heart from '@icons/svgs/heartIcon.svg';
-import cart from '@icons/svgs/cartIcon.svg';
 import cls from 'classnames';
 import Button from '@components/Button/Button';
 import { useContext, useEffect, useState } from 'react';
@@ -11,6 +8,10 @@ import { SideBarContext } from '@/contexts/SideBarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 import { addProductToCart } from '@/apis/cartService';
 import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+import { LiaShoppingBagSolid } from 'react-icons/lia';
+import { CiHeart } from 'react-icons/ci';
+import { TfiReload } from 'react-icons/tfi';
+import { PiEyeLight } from 'react-icons/pi';
 
 function ProductItem({
     src,
@@ -25,7 +26,7 @@ function ProductItem({
     const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
     const [sizeChoose, setSizeChoose] = useState('');
     const userId = Cookies.get('userId');
-    const { setIsOpen, setType, handleGetListProductsCart } =
+    const { setIsOpen, setType, handleGetListProductsCart, setDetailProduct } =
         useContext(SideBarContext);
     const { toast } = useContext(ToastContext);
     const [isLoading, setIsLoading] = useState(false);
@@ -91,6 +92,12 @@ function ProductItem({
             });
     };
 
+    const handleShowDetailProductSideBar = () => {
+        setIsOpen(true);
+        setType('detail');
+        setDetailProduct(details);
+    };
+
     useEffect(() => {
         if (isHomePage) {
             setIsShowGrid(true);
@@ -110,16 +117,19 @@ function ProductItem({
                 <img src={preSvrc} className={showImgWhenHover} />
                 <div className={showFnWhenHover}>
                     <div className={boxIcon}>
-                        <img src={cart} alt='' />
+                        <LiaShoppingBagSolid size={20} />
                     </div>
                     <div className={boxIcon}>
-                        <img src={heart} alt='' />
+                        <CiHeart size={23} />
                     </div>
                     <div className={boxIcon}>
-                        <img src={reloadIcon} alt='' />
+                        <TfiReload size={18} />
                     </div>
-                    <div className={boxIcon}>
-                        <img src={cart} alt='' />
+                    <div
+                        className={boxIcon}
+                        onClick={handleShowDetailProductSideBar}
+                    >
+                        <PiEyeLight size={20} />
                     </div>
                 </div>
             </div>

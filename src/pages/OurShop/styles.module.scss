@@ -64,21 +64,19 @@
         @include flex_box_custom(center, center, 10px);
     }
 
-    .selectBox {
-        border: 1px solid #e1e1e1;
-        padding: 5px;
-        color: #888;
-        background-color: #fff;
-        cursor: pointer;
-    }
-
     .selectBox.sort {
         width: 200px;
     }
-
-    .selectBox.show {
-        width: 1px;
-    }
+}
+.selectBox.show {
+    width: 83px;
+}
+.selectBox {
+    border: 1px solid #e1e1e1;
+    padding: 5px;
+    color: #888;
+    background-color: #fff;
+    cursor: pointer;
 }
 
 .containerProduct {
