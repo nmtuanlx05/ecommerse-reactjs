@@ -1,6 +1,6 @@
 @import '@styles/_mixins.module.scss';
 .container {
-    @include flex_box_custom(center, flex-start, 20px);
+    @include flex_box_custom(unset, flex-start, 20px);
     padding: 20px 20px 20px 20px;
     margin: 10px;
     transition: all 0.3s ease;

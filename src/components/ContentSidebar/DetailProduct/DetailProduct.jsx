@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import styles from './styles.module.scss';
 import SliderCommon from '@components/SliderCommon/SliderCommon';
@@ -15,6 +15,8 @@ import { CiMail } from 'react-icons/ci';
 import { FaLinkedinIn } from 'react-icons/fa';
 import { FaWhatsapp } from 'react-icons/fa';
 import { FaSkype } from 'react-icons/fa';
+import cls from 'classnames';
+import { addProductToCart } from '@/apis/cartService';
 
 function DetailProduct() {
     const {
@@ -30,9 +32,21 @@ function DetailProduct() {
         line,
         or,
         boxAddOther,
-        boxFooter
+        boxFooter,
+        isActive
     } = styles;
-    const { detailProduct } = useContext(SideBarContext);
+
+    const [chooseSize, setChooseSize] = useState('');
+    const [quantity, setQuantity] = useState(1);
+
+    const {
+        detailProduct,
+        userId,
+        setType,
+        handleGetListProductsCart,
+        setIsLoading,
+        setIsOpen
+    } = useContext(SideBarContext);
     const showOptions = [
         { label: '1', value: '1' },
         { label: '2', value: '2' },
@@ -42,24 +56,82 @@ function DetailProduct() {
         { label: '6', value: '6' },
         { label: '7', value: '7' }
     ];
+
+    const handleGetSize = (value) => {
+        setChooseSize(value);
+    };
+
+    const handleDeleteClearSize = () => {
+        setChooseSize('');
+    };
+
+    const handleGetQuantity = (value) => {
+        setQuantity(value);
+    };
+
+    const handleAddToCart = () => {
+        const data = {
+            userId,
+            productId: detailProduct._id,
+            quantity,
+            size: chooseSize,
+            isMultiple: true
+        };
+        setIsOpen(false);
+        setIsLoading(true);
+        addProductToCart(data)
+            .then((res) => {
+                setIsOpen(true);
+                setType('cart');
+                handleGetListProductsCart(userId, 'cart');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return (
         <div className={container}>
             <SliderCommon data={detailProduct.images} />
             <div className={title}>{detailProduct.name}</div>
             <div className={price}>${detailProduct.price}</div>
             <div className={des}>{detailProduct.description}</div>
-            <div className={label}>Size</div>
+
+            <div className={label}>Size {chooseSize}</div>
             <div className={boxSize}>
                 {detailProduct.size.map((item, index) => (
-                    <div className={size} key={index}>
+                    <div
+                        className={cls(size, {
+                            [isActive]: item.name === chooseSize
+                        })}
+                        key={index}
+                        onClick={() => handleGetSize(item.name)}
+                    >
                         {item.name}
                     </div>
                 ))}
             </div>
+            {chooseSize && (
+                <div
+                    onClick={handleDeleteClearSize}
+                    style={{
+                        fontSize: '12px',
+                        marginTop: '3px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    clear
+                </div>
+            )}
             <div className={boxAddToCart}>
-                <SelectBox options={showOptions} />
+                <SelectBox
+                    options={showOptions}
+                    type='show'
+                    defautValue={quantity}
+                    getValue={handleGetQuantity}
+                />
                 <div>
                     <Button
+                        onClick={handleAddToCart}
                         content={
                             <div>
                                 <PiShoppingCartSimpleThin /> ADD TO CART

@@ -77,7 +77,7 @@ function Cart() {
                     <div>
                         <div className={total}>
                             <p style={{ fontWeight: 'bold' }}>Subtotal:</p>
-                            <p>${subTotal}</p>
+                            <p>${subTotal.toFixed(2)}</p>
                         </div>
 
                         <div className={boxBtn}>

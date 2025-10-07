@@ -47,7 +47,7 @@ function CartSummary() {
                     </div>
                     <div className={cls(boxTotal, totals)}>
                         <div>TOTAL</div>
-                        <div>${total}</div>
+                        <div>${total.toFixed(2)}</div>
                     </div>
 
                     <Button content={'PROCEED TO CHECK OUT'} />

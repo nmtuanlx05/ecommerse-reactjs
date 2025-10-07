@@ -1,0 +1,36 @@
+@import '@styles/_mixins.module.scss';
+@import '@styles/_variable.module.scss';
+.container {
+    .title {
+        @include flex_box_custom(flex-start, center, 8px);
+        padding: 9px 15px;
+        color: #404040;
+        font-size: 14px;
+        cursor: pointer;
+
+        &:hover {
+            color: #7c7b7b;
+        }
+    }
+
+    .activeTitle {
+        background-color: #eeeeee;
+    }
+
+    .contentMenu {
+        height: 0px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        padding: 0px 20px;
+    }
+
+    .isVisibility {
+        visibility: visible;
+        height: auto;
+        padding: 20px;
+    }
+
+    .borderBottom {
+        border-bottom: 1px solid #e1e1e1;
+    }
+}

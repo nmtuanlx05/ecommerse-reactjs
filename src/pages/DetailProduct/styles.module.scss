@@ -1,0 +1,183 @@
+@import '@styles/_mixins.module.scss';
+@import '@styles/_variable.module.scss';
+
+.container {
+    padding-top: 83px;
+
+    .navigateSection {
+        @include flex_box_custom(space-between, center, 0px);
+        color: $primary_color;
+        font-size: 14px;
+        font-weight: 300;
+        padding: 10px 0;
+    }
+
+    .contentSection {
+        @include flex_box_custom(unset, flex-start, 20px);
+        .imgBox {
+            max-width: 610px;
+            width: 100%;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            img {
+                width: calc(100% / 2 - 10px);
+                height: 350px;
+                object-fit: cover;
+                border-radius: 3px;
+                cursor: zoom-in;
+            }
+        }
+
+        .infoBox {
+            flex-grow: 1;
+            h1 {
+                font-size: 24px;
+                margin-top: 0px;
+                font-weight: 400;
+                color: $four_color;
+            }
+
+            .price {
+                font-size: 20px;
+                color: $second_color;
+            }
+
+            .description {
+                color: $thir_color;
+                font-weight: 400;
+                line-height: 1.6;
+            }
+            .titleSize {
+                margin-bottom: 8px 0px;
+                color: $thir_color;
+            }
+
+            .boxSize {
+                @include flex_box_custom(flex-start, center, 10px);
+
+                .size {
+                    @include flex_box_custom(center, center, 0px);
+
+                    border: 1px solid #e1e1e1;
+                    padding: 8px 11px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    color: $thir_color;
+                }
+            }
+
+            .functionInfo {
+                @include flex_box_custom(space-between, center, 10px);
+                margin-top: 20px;
+
+                .boxBtn {
+                    flex-grow: 1;
+                    margin-left: 6px;
+                }
+
+                .incrementAmount {
+                    @include flex_box_custom(center, center, 0px);
+
+                    div {
+                        border: 1px solid #e1e1e1;
+                        padding: 10px 2px;
+                        color: $second_color;
+                        cursor: pointer;
+                    }
+
+                    div:nth-child(2) {
+                        padding: 10px 13px;
+                        color: $thir_color;
+                        cursor: unset;
+                    }
+                }
+            }
+
+            .orSection {
+                @include flex_box_custom(center, center, 10px);
+                font-size: 12px;
+                color: $thir_color;
+                margin-top: 16px;
+                margin-bottom: 16px;
+                .line {
+                    width: 100%;
+                    height: 1px;
+                    background-color: #e1e1e1;
+                    flex-grow: 1;
+                }
+            }
+
+            .addFunc {
+                @include flex_box_custom(unset, center, 10px);
+                margin: 30px 0;
+                cursor: pointer;
+
+                div {
+                    border: 1px solid #e1e1e1;
+                    border-radius: 52%;
+                    padding: 5px;
+                }
+                div:nth-child(2) {
+                    padding: 8px;
+                }
+            }
+
+            .containerMethods {
+                padding: 25px 0;
+                position: relative;
+                width: 100%;
+                border: 1px solid #e1e1e1;
+                margin-top: 45px;
+
+                .titleMethos {
+                    position: absolute;
+                    top: -8px;
+                    transform: translateX(-50%);
+                    left: 50%;
+                    background-color: #fff;
+                    padding: 0 10px;
+                    text-transform: uppercase;
+                    font-size: 14px;
+
+                    span {
+                        color: #2e7d32;
+                    }
+                }
+
+                .boxImgMethods {
+                    @include flex_box_custom(center, center, 10px);
+                    .imgMethods {
+                        border: 1px solid #e1e1e1;
+                        max-width: 50%;
+                        width: 50px;
+                        height: 35px;
+                        border-radius: 5px;
+                    }
+                }
+            }
+            .textSecu {
+                text-align: center;
+                font-size: 14px;
+                color: $thir_color;
+                margin-top: 10px;
+            }
+
+            .info {
+                @include flex_box_custom(unset, flex-start, 12px);
+
+                flex-direction: column;
+                margin: 20px 0px;
+                color: $four_color;
+
+                span {
+                    color: $second_color;
+                }
+            }
+        }
+    }
+}

@@ -12,6 +12,7 @@ import { LiaShoppingBagSolid } from 'react-icons/lia';
 import { CiHeart } from 'react-icons/ci';
 import { TfiReload } from 'react-icons/tfi';
 import { PiEyeLight } from 'react-icons/pi';
+import { useNavigate } from 'react-router-dom';
 
 function ProductItem({
     src,
@@ -30,6 +31,8 @@ function ProductItem({
         useContext(SideBarContext);
     const { toast } = useContext(ToastContext);
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const {
         containerItem,
@@ -98,6 +101,11 @@ function ProductItem({
         setDetailProduct(details);
     };
 
+    const handleNavigateToDetail = () => {
+        const path = `/product/${details._id}`;
+        navigate(path);
+    };
+
     useEffect(() => {
         if (isHomePage) {
             setIsShowGrid(true);
@@ -109,6 +117,7 @@ function ProductItem({
     return (
         <div className={isShowGrid ? '' : containerItem}>
             <div
+                onClick={handleNavigateToDetail}
                 className={cls(boxImg, {
                     [largImg]: !isShowGrid
                 })}

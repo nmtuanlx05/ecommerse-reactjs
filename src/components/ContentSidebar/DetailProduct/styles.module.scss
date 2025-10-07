@@ -36,6 +36,9 @@
             border: 1px solid #e1e1e1;
             font-size: 12px;
             cursor: pointer;
+            &:hover {
+                border: 1px solid $primary_color;
+            }
         }
         .isActive {
             border: 1px solid $primary_color;
@@ -84,6 +87,7 @@
             @include flex_box_custom(flex-start, center, 10px);
             // align-items: center;
             color: $second_color;
+            cursor: pointer;
         }
     }
 }
