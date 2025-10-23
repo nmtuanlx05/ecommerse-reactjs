@@ -6,8 +6,24 @@ import { PiShoppingCartSimpleThin } from 'react-icons/pi';
 import { TfiReload } from 'react-icons/tfi';
 import { CiHeart } from 'react-icons/ci';
 import AccordionMenu from '@components/AccordionMenu/Accordion';
-import { useState } from 'react';
-
+import { useContext, useEffect, useState } from 'react';
+import InformationProduct from '@/pages/DetailProduct/components/Information';
+import ReviewProduct from '@/pages/DetailProduct/components/Review';
+import MyFooter from '@components/Footer/Footer';
+import SliderCommon from '@components/SliderCommon/SliderCommon';
+import ReactImageMagnifier from 'simple-image-magnifier/react';
+import cls from 'classnames';
+import { getDetailProduct } from '@/apis/productsService';
+import { useNavigate, useParams } from 'react-router-dom';
+import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+import { getRelatedProduct } from '@/apis/productsService';
+import { toast } from 'react-toastify';
+import { handleAddProductToCartCommon } from '@/utils/helper';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { ToastContext } from '@/contexts/ToastProvider';
+import Cookies from 'js-cookie';
+const INCREA = 'increasement';
+const DECREA = 'decreasement';
 function DetailProduct() {
     const {
         container,
@@ -31,7 +47,12 @@ function DetailProduct() {
         boxImgMethods,
         imgMethods,
         textSecu,
-        info
+        info,
+        active,
+        clear,
+        activeDisabled,
+        loading,
+        isEmpty
     } = styles;
     const srcMethods = [
         'https://xstore.8theme.com/elementor2/marseille04/wp-content/themes/xstore/images/woocommerce/payment-icons/visa.jpeg',
@@ -43,16 +64,40 @@ function DetailProduct() {
     ];
 
     const [menuSelected, setMenuSelected] = useState(1);
+
+    const [sizeSelected, setSizeSlected] = useState('');
+
+    const [quantity, setQuantity] = useState(1);
+
+    const [data, setData] = useState();
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [isLoadingBtn, setIsLoadingBtn] = useState(false);
+
+    const [relatedData, setRelatedData] = useState([]);
+
+    const param = useParams();
+
+    const naviagte = useNavigate();
+
+    const { setIsOpen, setType, handleGetListProductsCart } =
+        useContext(SideBarContext);
+
+    const { toast } = useContext(ToastContext);
+
+    const userId = Cookies.get('userId');
+
     const dataAccordionMenu = [
         {
             id: 1,
             titleMenu: 'ADDITIONAL INFORMATION',
-            content: <div>CONTENT ADDITIONAL</div>
+            content: <InformationProduct />
         },
         {
             id: 2,
             titleMenu: 'REVIEW (0)',
-            content: <div>CONTENT REVIEW</div>
+            content: <ReviewProduct />
         }
     ];
 
@@ -60,9 +105,83 @@ function DetailProduct() {
         setMenuSelected((prev) => (prev === id ? null : id));
     };
 
+    const handleZoomImage = (src) => {
+        return (
+            <ReactImageMagnifier
+                srcPreview={src}
+                srcOriginal={src}
+                width={295}
+                height={350}
+            />
+        );
+    };
+
+    const handleSelectedSize = (size) => {
+        setSizeSlected(size);
+    };
+
+    const handleClearSize = () => {
+        setSizeSlected('');
+    };
+
+    const handleSetQuantity = (type) => {
+        if (quantity < 1) return;
+        setQuantity((prev) =>
+            type === INCREA ? (prev += 1) : quantity === 1 ? 1 : (prev -= 1)
+        );
+    };
+
+    const fetchDataDetail = async (id) => {
+        setIsLoading(true);
+        try {
+            const data = await getDetailProduct(id);
+            setData(data);
+            setIsLoading(false);
+        } catch (error) {
+            toast.error('Error loading data');
+            setData();
+            setIsLoading(false);
+        }
+    };
+
+    const fetchDataRelatedProduct = async (id) => {
+        setIsLoading(true);
+        try {
+            const data = await getRelatedProduct(id);
+            setRelatedData(data);
+            setIsLoading(false);
+        } catch (error) {
+            toast.error('Error loading data');
+            setRelatedData([]);
+            setIsLoading(false);
+        }
+    };
+
+    const handleAdd = () => {
+        handleAddProductToCartCommon(
+            userId,
+            setIsOpen,
+            setType,
+            toast,
+            sizeSelected,
+            param.id,
+            quantity,
+            setIsLoadingBtn,
+            handleGetListProductsCart
+        );
+    };
+
+    useEffect(() => {
+        if (param.id) {
+            fetchDataDetail(param.id);
+            fetchDataRelatedProduct(param.id);
+        }
+    }, [param]);
+
     return (
         <div>
             <MyHeader />
+
             <div className={container}>
                 <MainLayout>
                     <div className={navigateSection}>
@@ -72,130 +191,221 @@ function DetailProduct() {
                         </div>
                     </div>
 
-                    <div className={contentSection}>
-                        <div className={imgBox}>
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                                alt='Anh1'
-                            />
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                                alt='Anh1'
-                            />
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                                alt='Anh1'
-                            />
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                                alt='Anh1'
-                            />
+                    {isLoading ? (
+                        <div className={loading}>
+                            <LoadingTextCommon />
                         </div>
-
-                        <div className={infoBox}>
-                            <h1>Title Product</h1>
-                            <p className={price}>$1,879.99</p>{' '}
-                            <p className={description}>
-                                Amet, elit tellus, nisi odio velit ut. Euismod
-                                sit arcu, quisque arcu purus orci leo.
-                            </p>
-                            <p className={titleSize}>Size</p>
-                            <div className={boxSize}>
-                                <div className={size}>S</div>
-                                <div className={size}>M</div>
-                                <div className={size}>L</div>
-                            </div>
-                            <div className={functionInfo}>
-                                <div className={incrementAmount}>
-                                    <div>-</div>
-                                    <div>1</div>
-                                    <div>+</div>
+                    ) : (
+                        <>
+                            {!data ? (
+                                <div className={isEmpty}>
+                                    <p>No Result </p>
+                                    <div>
+                                        <Button
+                                            content={'Back to Our Shop'}
+                                            onClick={() => naviagte('/shop')}
+                                        />
+                                    </div>
                                 </div>
+                            ) : (
+                                <div className={contentSection}>
+                                    <div className={imgBox}>
+                                        {data?.images.map((src) =>
+                                            handleZoomImage(src)
+                                        )}
+                                    </div>
 
-                                <div className={boxBtn}>
-                                    <Button
-                                        content={
-                                            <div>
-                                                {' '}
-                                                <PiShoppingCartSimpleThin /> ADD
-                                                TO CART
-                                            </div>
-                                        }
-                                        style={{ height: '43px' }}
-                                    />
-                                </div>
-                            </div>
-                            <div className={orSection}>
-                                <div className={line} />
-                                <div>OR</div>
-                                <div className={line} />
-                            </div>
-                            <div>
-                                <Button
-                                    content={
-                                        <div>
-                                            {' '}
-                                            <PiShoppingCartSimpleThin /> BUY NOW
+                                    <div className={infoBox}>
+                                        <h1>{data?.name}</h1>
+                                        <p className={price}>
+                                            ${data?.price}
+                                        </p>{' '}
+                                        <p className={description}>
+                                            {data?.description}
+                                        </p>
+                                        <p className={titleSize}>
+                                            Size {sizeSelected}
+                                        </p>
+                                        <div className={boxSize}>
+                                            {data?.size.map((item, index) => (
+                                                <div
+                                                    key={index}
+                                                    className={cls(size, {
+                                                        [active]:
+                                                            sizeSelected ===
+                                                            item.name
+                                                    })}
+                                                    onClick={() =>
+                                                        handleSelectedSize(
+                                                            item.name
+                                                        )
+                                                    }
+                                                >
+                                                    {item.name}
+                                                </div>
+                                            ))}
                                         </div>
-                                    }
-                                    style={{ height: '43px' }}
-                                />
-                            </div>
-                            <div className={addFunc}>
-                                <div>
-                                    <CiHeart size={28} />
-                                </div>
-                                <div>
-                                    <TfiReload size={22} />
-                                </div>
-                            </div>
-                            <div className={containerMethods}>
-                                <div className={titleMethos}>
-                                    Guaranteed <span>safe</span> checkout
-                                </div>
+                                        {sizeSelected && (
+                                            <p
+                                                className={clear}
+                                                onClick={handleClearSize}
+                                            >
+                                                clear
+                                            </p>
+                                        )}
+                                        <div className={functionInfo}>
+                                            <div className={incrementAmount}>
+                                                <div
+                                                    onClick={() =>
+                                                        handleSetQuantity(
+                                                            DECREA
+                                                        )
+                                                    }
+                                                >
+                                                    -
+                                                </div>
+                                                <div>{quantity}</div>
+                                                <div
+                                                    onClick={() =>
+                                                        handleSetQuantity(
+                                                            INCREA
+                                                        )
+                                                    }
+                                                >
+                                                    +
+                                                </div>
+                                            </div>
 
-                                <div className={boxImgMethods}>
-                                    {srcMethods.map((src, index) => {
-                                        return (
-                                            <img
-                                                src={src}
-                                                alt='method'
-                                                className={imgMethods}
-                                                key={index}
+                                            <div className={boxBtn}>
+                                                <Button
+                                                    content={
+                                                        isLoadingBtn ? (
+                                                            <LoadingTextCommon />
+                                                        ) : (
+                                                            <div>
+                                                                {' '}
+                                                                <PiShoppingCartSimpleThin />{' '}
+                                                                ADD TO CART
+                                                            </div>
+                                                        )
+                                                    }
+                                                    customClassname={
+                                                        !sizeSelected &&
+                                                        activeDisabled
+                                                    }
+                                                    style={{
+                                                        height: '42px'
+                                                    }}
+                                                    onClick={handleAdd}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className={orSection}>
+                                            <div className={line} />
+                                            <div>OR</div>
+                                            <div className={line} />
+                                        </div>
+                                        <div>
+                                            <Button
+                                                content={
+                                                    <div>
+                                                        {' '}
+                                                        <PiShoppingCartSimpleThin />{' '}
+                                                        BUY NOW
+                                                    </div>
+                                                }
+                                                customClassname={
+                                                    !sizeSelected &&
+                                                    activeDisabled
+                                                }
+                                                style={{ height: '42px' }}
                                             />
-                                        );
-                                    })}
+                                        </div>
+                                        <div className={addFunc}>
+                                            <div>
+                                                <CiHeart size={28} />
+                                            </div>
+                                            <div>
+                                                <TfiReload size={22} />
+                                            </div>
+                                        </div>
+                                        <div className={containerMethods}>
+                                            <div className={titleMethos}>
+                                                Guaranteed <span>safe</span>{' '}
+                                                checkout
+                                            </div>
+
+                                            <div className={boxImgMethods}>
+                                                {srcMethods.map(
+                                                    (src, index) => {
+                                                        return (
+                                                            <img
+                                                                src={src}
+                                                                alt='method'
+                                                                className={
+                                                                    imgMethods
+                                                                }
+                                                                key={index}
+                                                            />
+                                                        );
+                                                    }
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className={textSecu}>
+                                            Your Payment is 100% Secure
+                                        </div>
+                                        <div className={info}>
+                                            <div>
+                                                Brand: <span>Brand 03</span>
+                                            </div>
+                                            <div>
+                                                SKU: <span>12345</span>
+                                            </div>
+                                            <div>
+                                                Category: <span>Men</span>
+                                            </div>
+                                        </div>
+                                        {dataAccordionMenu.map(
+                                            (item, index) => (
+                                                <AccordionMenu
+                                                    titleMenu={item.titleMenu}
+                                                    contentJsx={item.content}
+                                                    key={index}
+                                                    onClick={() =>
+                                                        handleSetMenuSelected(
+                                                            item.id
+                                                        )
+                                                    }
+                                                    isSelected={
+                                                        menuSelected === item.id
+                                                    }
+                                                />
+                                            )
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={textSecu}>
-                                Your Payment is 100% Secure
-                            </div>
-                            <div className={info}>
-                                <div>
-                                    Brand: <span>Brand 03</span>
-                                </div>
-                                <div>
-                                    SKU: <span>12345</span>
-                                </div>
-                                <div>
-                                    Category: <span>Men</span>
-                                </div>
-                            </div>
-                            {dataAccordionMenu.map((item, index) => (
-                                <AccordionMenu
-                                    titleMenu={item.titleMenu}
-                                    contentJsx={item.content}
-                                    key={index}
-                                    onClick={() =>
-                                        handleSetMenuSelected(item.id)
-                                    }
-                                    isSelected={menuSelected === item.id}
-                                />
-                            ))}
+                            )}
+                        </>
+                    )}
+
+                    {relatedData.length ? (
+                        <div>
+                            <h2>Related products</h2>
+
+                            <SliderCommon
+                                data={relatedData}
+                                isProductItem={true}
+                                showItem={4}
+                            />
                         </div>
-                    </div>
+                    ) : (
+                        <></>
+                    )}
                 </MainLayout>
             </div>
+
+            <MyFooter />
         </div>
     );
 }

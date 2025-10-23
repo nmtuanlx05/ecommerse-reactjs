@@ -13,6 +13,7 @@ import { CiHeart } from 'react-icons/ci';
 import { TfiReload } from 'react-icons/tfi';
 import { PiEyeLight } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
+import { handleAddProductToCartCommon } from '@/utils/helper';
 
 function ProductItem({
     src,
@@ -20,7 +21,8 @@ function ProductItem({
     name,
     price,
     details,
-    isHomePage = true
+    isHomePage = true,
+    slideItem = false
 }) {
     // const { isShowGrid } = useContext(OurShopContext);
     const ourShopStore = useContext(OurShopContext);
@@ -62,37 +64,17 @@ function ProductItem({
     };
 
     const handleAddToCart = () => {
-        if (!userId) {
-            setIsOpen(true);
-            setType('login');
-            toast.warning('Please login to add product to cart!');
-
-            return;
-        }
-        if (!sizeChoose) {
-            toast.warning('Please choose size!');
-            return;
-        }
-
-        const data = {
+        handleAddProductToCartCommon(
             userId,
-            productId: details._id,
-            quantity: 1,
-            size: sizeChoose
-        };
-        setIsLoading(true);
-        addProductToCart(data)
-            .then((res) => {
-                setIsOpen(true);
-                setType('cart');
-                toast.success('Add Product to cart successfully!');
-                setIsLoading(false);
-                handleGetListProductsCart(userId, 'cart');
-            })
-            .catch((err) => {
-                toast.error('Add Product to cart failed!');
-                setIsLoading(false);
-            });
+            setIsOpen,
+            setType,
+            toast,
+            sizeChoose,
+            details._id,
+            1,
+            setIsLoading,
+            handleGetListProductsCart
+        );
     };
 
     const handleShowDetailProductSideBar = () => {
@@ -113,6 +95,12 @@ function ProductItem({
             setIsShowGrid(ourShopStore?.isShowGrid);
         }
     }, [isHomePage, ourShopStore?.isShowGrid]);
+
+    useEffect(() => {
+        if (slideItem === true) {
+            setIsShowGrid(true);
+        }
+    }, [slideItem]);
 
     return (
         <div className={isShowGrid ? '' : containerItem}>
@@ -142,7 +130,12 @@ function ProductItem({
                     </div>
                 </div>
             </div>
-            <div className={isShowGrid ? '' : content}>
+            <div
+                className={isShowGrid ? '' : content}
+                style={{
+                    marginTop: slideItem && '18px'
+                }}
+            >
                 {!isHomePage && (
                     <div className={boxSize}>
                         {details.size.map((item, index) => (

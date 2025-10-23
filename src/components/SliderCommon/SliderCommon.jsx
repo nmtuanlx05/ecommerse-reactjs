@@ -6,20 +6,40 @@ import {
     MdOutlineArrowForwardIos
 } from 'react-icons/md';
 import './styles.css';
-function SliderCommon({ data }) {
+import ProductItem from '@components/ProductItem/ProducyItem';
+function SliderCommon({ data, isProductItem = false, showItem = 1 }) {
     var settings = {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 1,
+        slidesToShow: showItem,
         slidesToScroll: 1,
         nextArrow: <MdOutlineArrowForwardIos />,
         prevArrow: <MdOutlineArrowBackIos />
     };
+    console.log(data);
     return (
         <Slider {...settings}>
-            {data.map((src, index) => {
-                return <img src={src} alt='src' key={index} />;
+            {data.map((item, index) => {
+                const src = !item.image ? item.images[0] : item.image;
+
+                return (
+                    <div key={index}>
+                        {isProductItem ? (
+                            <ProductItem
+                                src={src}
+                                preSvrc={src}
+                                name={item.name}
+                                price={item.price}
+                                details={item}
+                                isHomePage={false}
+                                slideItem={true}
+                            />
+                        ) : (
+                            <img src={item} alt='src' key={index} />
+                        )}
+                    </div>
+                );
             })}
         </Slider>
     );

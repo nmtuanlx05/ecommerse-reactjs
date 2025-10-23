@@ -29,6 +29,7 @@
                 object-fit: cover;
                 border-radius: 3px;
                 cursor: zoom-in;
+                transition: none !important;
             }
         }
 
@@ -68,6 +69,10 @@
                     cursor: pointer;
                     font-size: 12px;
                     color: $thir_color;
+                }
+
+                .active {
+                    border: 1px solid #555;
                 }
             }
 
@@ -180,4 +185,157 @@
             }
         }
     }
+}
+
+.containerInfoProduct {
+    font-weight: 400;
+    div:last-child {
+        border-bottom: unset;
+    }
+
+    .itemInfo {
+        @include flex_box_custom(flex-start, center, 0px);
+
+        border-bottom: 1px solid #e1e1e1;
+        padding: 15px 0px;
+
+        div {
+            width: 50%;
+        }
+
+        .title {
+            color: $second_color;
+        }
+        .content {
+            color: $thir_color;
+        }
+    }
+}
+
+.containerReview {
+    .reviews {
+        border-bottom: 1px solid #e1e1e1;
+        padding-bottom: 15px;
+    }
+
+    .noreview {
+        font-size: 14px;
+        color: $thir_color;
+        margin-bottom: 20px;
+    }
+
+    .replyForm {
+        padding-top: 30px;
+
+        .cmtReplyTitle {
+            font-size: 14px;
+            margin-top: 14px;
+            padding-bottom: 14px;
+            color: $primary_color;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .cmtNotes {
+            font-size: 14px;
+            color: $thir_color;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .formItem {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .boxItemStars {
+                display: flex;
+                gap: 25px;
+            }
+
+            label {
+                color: $thir_color;
+
+                span {
+                    color: #c62828;
+                }
+            }
+
+            textarea {
+                border: 1px solid #e1e1e1;
+                padding: 12px 15px;
+                outline: none;
+                &:focus {
+                    border: 1px solid $second_color;
+                }
+            }
+
+            input {
+                border: 1px solid #e1e1e1;
+                padding: 8px 15px;
+                outline: none;
+                &:focus {
+                    border: 1px solid $second_color;
+                }
+            }
+        }
+
+        .boxCheck {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+
+            input {
+                margin-top: 3px;
+            }
+
+            span {
+                color: $thir_color;
+            }
+        }
+        .btnSubmit {
+            width: 100%;
+            max-width: 110px;
+        }
+    }
+}
+
+.clear {
+    text-decoration: underline;
+    color: #222;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.activeDisabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+
+    &:hover {
+        background-color: #333;
+        color: #fff;
+    }
+}
+
+.isEmpty {
+    height: 977px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        font-size: 24px;
+    }
+}
+
+.loading {
+    height: 977px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f8;
 }
