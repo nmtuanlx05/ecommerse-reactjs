@@ -10,6 +10,7 @@ import useScrollHandling from '@/hooks/useScrollHandling';
 import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SideBarProvider';
+import { StoreContext } from '@/contexts/StoreProvider';
 
 function MyHeader() {
     const {
@@ -26,13 +27,33 @@ function MyHeader() {
 
     const { scrollPosition } = useScrollHandling();
     const [fixedPosition, setFixedPosition] = useState(false);
-    const { isOpen, setIsOpen, type, setType, listProductCart } =
-        useContext(SideBarContext);
+    const {
+        isOpen,
+        setIsOpen,
+        type,
+        setType,
+        listProductCart,
+        handleGetListProductsCart,
+        userId
+    } = useContext(SideBarContext);
+
+    const { userInfo } = useContext(StoreContext);
 
     const handleOpenSideBar = (type) => {
         setIsOpen(true);
         setType(type);
     };
+
+    const handleOpenCartSidebar = () => {
+        handleGetListProductsCart(userId, 'cart');
+        handleOpenSideBar('cart');
+    };
+
+    const totalItemCart = listProductCart.length
+        ? listProductCart.reduce((acc, item) => {
+              return (acc += item.quantity);
+          }, 0)
+        : 0;
 
     useEffect(() => {
         setFixedPosition(scrollPosition > 90 ? true : false);
@@ -91,10 +112,10 @@ function MyHeader() {
                         <div className={boxCart}>
                             <PiShoppingCartLight
                                 style={{ fontSize: '25px', cursor: 'pointer' }}
-                                onClick={() => handleOpenSideBar('cart')}
+                                onClick={() => handleOpenCartSidebar()}
                             />
                             <div className={quantity}>
-                                {listProductCart.length}
+                                {totalItemCart || userInfo?.amountCart || 0}
                             </div>
                         </div>
                     </div>

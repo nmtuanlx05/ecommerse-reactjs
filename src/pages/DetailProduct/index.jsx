@@ -17,11 +17,11 @@ import { getDetailProduct } from '@/apis/productsService';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
 import { getRelatedProduct } from '@/apis/productsService';
-import { toast } from 'react-toastify';
 import { handleAddProductToCartCommon } from '@/utils/helper';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 import Cookies from 'js-cookie';
+import { addProductToCart } from '@/apis/cartService';
 const INCREA = 'increasement';
 const DECREA = 'decreasement';
 function DetailProduct() {
@@ -75,11 +75,13 @@ function DetailProduct() {
 
     const [isLoadingBtn, setIsLoadingBtn] = useState(false);
 
+    const [isLoadingBtnBuyNow, setIsLoadingBtnBuyNow] = useState(false);
+
     const [relatedData, setRelatedData] = useState([]);
 
     const param = useParams();
 
-    const naviagte = useNavigate();
+    const navigate = useNavigate();
 
     const { setIsOpen, setType, handleGetListProductsCart } =
         useContext(SideBarContext);
@@ -169,6 +171,26 @@ function DetailProduct() {
             setIsLoadingBtn,
             handleGetListProductsCart
         );
+    };
+
+    const handleBuyNow = () => {
+        const data = {
+            userId,
+            productId: param.id,
+            quantity: quantity,
+            size: sizeSelected
+        };
+        setIsLoadingBtnBuyNow(true);
+        addProductToCart(data)
+            .then((res) => {
+                toast.success('Add Product to cart successfully!');
+                setIsLoadingBtnBuyNow(false);
+                navigate('/cart');
+            })
+            .catch((error) => {
+                toast.error('Add Product to cart failed......!');
+                setIsLoadingBtnBuyNow(false);
+            });
     };
 
     useEffect(() => {
@@ -308,17 +330,22 @@ function DetailProduct() {
                                         <div>
                                             <Button
                                                 content={
-                                                    <div>
-                                                        {' '}
-                                                        <PiShoppingCartSimpleThin />{' '}
-                                                        BUY NOW
-                                                    </div>
+                                                    isLoadingBtnBuyNow ? (
+                                                        <LoadingTextCommon />
+                                                    ) : (
+                                                        <div>
+                                                            {' '}
+                                                            <PiShoppingCartSimpleThin />{' '}
+                                                            BUY NOW
+                                                        </div>
+                                                    )
                                                 }
                                                 customClassname={
                                                     !sizeSelected &&
                                                     activeDisabled
                                                 }
                                                 style={{ height: '42px' }}
+                                                onClick={handleBuyNow}
                                             />
                                         </div>
                                         <div className={addFunc}>

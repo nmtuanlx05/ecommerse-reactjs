@@ -32,7 +32,7 @@ function Cart() {
     const { listProductCart, isLoading, setIsOpen } =
         useContext(SideBarContext);
 
-    console.log(listProductCart);
+    // console.log(listProductCart);
 
     const subTotal = listProductCart.reduce((acc, item) => {
         return acc + item.total;
@@ -55,7 +55,12 @@ function Cart() {
             />
             {listProductCart.length ? (
                 <div className={containerListItem}>
-                    <div>
+                    <div
+                        style={{
+                            height: 'calc(100vh - 250px)',
+                            overflow: 'auto'
+                        }}
+                    >
                         {isLoading ? (
                             <LoadingTextCommon />
                         ) : (
