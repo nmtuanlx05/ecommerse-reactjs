@@ -4,6 +4,9 @@ import cls from 'classnames';
 import { useContext } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import LoadingCart from '@/pages/Cart/components/Loading';
+import { StepperContext } from '@/contexts/SteperProvider';
+import PaymentMethods from '@components/PaymentMethods/PaymentMethods';
+import { handleTotalPrice } from '@/utils/helper';
 function CartSummary() {
     const {
         containerSummary,
@@ -22,6 +25,7 @@ function CartSummary() {
     } = styles;
 
     const { listProductCart, isLoading } = useContext(SideBarContext);
+    const { currentStep, setCurrentStep } = useContext(StepperContext);
 
     const srcMethods = [
         'https://xstore.8theme.com/elementor2/marseille04/wp-content/themes/xstore/images/woocommerce/payment-icons/visa.jpeg',
@@ -32,9 +36,9 @@ function CartSummary() {
         'https://xstore.8theme.com/elementor2/marseille04/wp-content/themes/xstore/images/woocommerce/payment-icons/bitcoin.jpeg'
     ];
 
-    const total = listProductCart.reduce((acc, item) => {
-        return (acc += item.total);
-    }, 0);
+    const handleProcessCheckout = () => {
+        setCurrentStep(2);
+    };
 
     return (
         <>
@@ -43,39 +47,28 @@ function CartSummary() {
                     <div className={title}>CART TOTAL</div>
                     <div className={cls(boxTotal, subTotal)}>
                         <div>Subtotal</div>
-                        <div className={price}>${total}</div>
+                        <div className={price}>
+                            ${handleTotalPrice(listProductCart)}
+                        </div>
                     </div>
                     <div className={cls(boxTotal, totals)}>
                         <div>TOTAL</div>
-                        <div>${total.toFixed(2)}</div>
+                        <div>
+                            ${handleTotalPrice(listProductCart).toFixed(2)}
+                        </div>
                     </div>
 
-                    <Button content={'PROCEED TO CHECK OUT'} />
+                    <Button
+                        content={'PROCEED TO CHECK OUT'}
+                        onClick={handleProcessCheckout}
+                    />
                     <div className={space} />
                     <Button content={'CONTINUE SHOPPING'} isPrinary={false} />
 
                     {isLoading && <LoadingCart />}
                 </div>
 
-                <div className={containerMethods}>
-                    <div className={titleMethos}>
-                        Guaranteed <span>safe</span> checkout
-                    </div>
-
-                    <div className={boxImgMethods}>
-                        {srcMethods.map((src, index) => {
-                            return (
-                                <img
-                                    src={src}
-                                    alt='method'
-                                    className={imgMethods}
-                                    key={index}
-                                />
-                            );
-                        })}
-                    </div>
-                </div>
-                <div className={textSecu}>Your Payment is 100% Secure</div>
+                <PaymentMethods />
             </div>
         </>
     );
