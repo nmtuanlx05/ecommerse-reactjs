@@ -2,9 +2,12 @@ import InputCustom from '@components/InputCommon2/Input';
 import { useForm } from 'react-hook-form';
 import styles from './styles.module.scss';
 import cls from 'classnames';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import RightBody from '@/pages/Cart/components/Checkout/RightBody';
+import { createOrder } from '@/apis/orderService';
+import { useNavigate } from 'react-router-dom';
+import { StepperContext } from '@/contexts/SteperProvider';
 
 const CN_BASE = 'https://countriesnow.space/api/v0.1';
 
@@ -21,6 +24,8 @@ function Checkout() {
     const [countries, setCountries] = useState([]);
     const [cities, setCities] = useState([]);
     const [states, setStates] = useState([]);
+    const navigate = useNavigate();
+    const { setCurrentStep } = useContext(StepperContext);
 
     const {
         register,
@@ -28,6 +33,18 @@ function Checkout() {
         watch,
         formState: { errors }
     } = useForm();
+
+    const onSubmit = async (data) => {
+        try {
+            const res = await createOrder(data);
+            setCurrentStep(3);
+            navigate(
+                `/cart?id=${res.data.data._id}&totalAmount=${res.data.data.totalAmount}`
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         axios.get(`${CN_BASE}/countries/iso`).then((res) =>
@@ -99,10 +116,7 @@ function Checkout() {
 
                 <p className={title}>BILLING DETAILS</p>
 
-                <form
-                    id='test'
-                    onSubmit={handleSubmit((data) => console.log(data))}
-                >
+                <form id='test' onSubmit={handleSubmit(onSubmit)}>
                     <div className={cls(row, row2Column)}>
                         <InputCustom
                             label={'Firs Name'}
@@ -151,7 +165,7 @@ function Checkout() {
                             label={'Street address'}
                             type={'text'}
                             isRequired
-                            register={register('streetAddress', {
+                            register={register('street', {
                                 required: true
                             })}
                             placeholder={'House number and street name'}
@@ -184,7 +198,7 @@ function Checkout() {
                             label={'State'}
                             dataOptions={states}
                             isRequired
-                            register={register('State', {
+                            register={register('state', {
                                 required: true
                             })}
                         />

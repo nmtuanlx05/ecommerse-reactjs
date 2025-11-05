@@ -12,7 +12,7 @@ function Stepper({ number, content, isDisabled }) {
         <div
             className={stepper}
             onClick={() => {
-                setCurrentStep(number);
+                number !== 3 ? setCurrentStep(number) : {};
             }}
         >
             <div
