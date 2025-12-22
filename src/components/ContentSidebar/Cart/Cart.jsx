@@ -95,6 +95,7 @@ function Cart() {
                                 content={'CHECKOUT'}
                                 isPrinary={false}
                                 className={styles.cartBtn}
+                                onClick={() => navigate('/checkout')}
                             />
                         </div>
                     </div>

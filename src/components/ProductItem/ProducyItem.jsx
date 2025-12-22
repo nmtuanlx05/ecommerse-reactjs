@@ -88,6 +88,42 @@ function ProductItem({
         navigate(path);
     };
 
+    //  2. VIẾT HÀM THÊM VÀO WISHLIST
+    const handleAddToWishlist = async (e) => {
+        // Ngăn chặn sự kiện nổi bọt (để không bị nhảy sang trang detail khi bấm tim)
+        e.stopPropagation();
+
+        if (!userId) {
+            toast.warning('Please login to use wishlist!');
+            return;
+        }
+
+        try {
+            setIsLoading(true);
+            // Gọi API thêm vào Wishlist
+            await addProductToCart({
+                userId,
+                productId: details._id,
+                quantity: 1,
+                type: 'wishlist' // 👈 QUAN TRỌNG: Gửi type wishlist
+            });
+
+            // Cập nhật lại danh sách Wishlist trong Context
+            handleGetListProductsCart(userId, 'wishlist');
+
+            // Thông báo và mở Sidebar
+            toast.success('Added to wishlist!');
+            setType('wishlist'); // Chuyển loại sidebar sang wishlist
+            setIsOpen(true); // Mở sidebar
+        } catch (error) {
+            // Nếu lỗi (ví dụ đã tồn tại), API trả về lỗi thì hiển thị thông báo
+            console.error(error);
+            toast.error(error.response?.data?.msg || 'Failed to add wishlist');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (isHomePage) {
             setIsShowGrid(true);
@@ -116,7 +152,7 @@ function ProductItem({
                     <div className={boxIcon}>
                         <LiaShoppingBagSolid size={20} />
                     </div>
-                    <div className={boxIcon}>
+                    <div className={boxIcon} onClick={handleAddToWishlist}>
                         <CiHeart size={23} />
                     </div>
                     <div className={boxIcon}>
@@ -175,7 +211,7 @@ function ProductItem({
                         [textCenter]: !isHomePage
                     })}
                     style={{
-                        color: isHomePage ? '#333' : '#888'
+                        color: isHomePage ? '#555' : '#888'
                     }}
                 >
                     ${price}

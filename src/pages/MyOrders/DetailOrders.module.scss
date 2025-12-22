@@ -1,0 +1,224 @@
+.container {
+    max-width: 1140px;
+    margin: 120px auto 50px;
+    padding: 0 15px;
+    min-height: 70vh;
+}
+
+.headerSection {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+
+    .btnBack {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        color: #555;
+        transition: 0.2s;
+
+        &:hover {
+            color: #000;
+        }
+    }
+
+    .title {
+        flex: 1;
+        text-align: center;
+        font-size: 28px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin: 0;
+        /* Kéo title về giữa tuyệt đối dù có nút back bên trái */
+        position: absolute;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+    }
+}
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin-top: 50px;
+}
+
+.contentWrapper {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* TOP INFO */
+.topInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    .infoGroup {
+        .label {
+            font-weight: 600;
+            color: #666;
+            margin-right: 8px;
+        }
+        .value {
+            font-weight: 700;
+            color: #333;
+        }
+    }
+}
+
+/* GRID LAYOUT */
+.gridLayout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; // Cột phải rộng hơn
+    gap: 30px;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 18px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+        color: #333;
+    }
+}
+
+/* ADDRESS INFO */
+.addressInfo {
+    p {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #555;
+        line-height: 1.5;
+    }
+}
+
+/* ITEM LIST */
+.itemList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.itemRow {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.productImage {
+    width: 70px; /* Kích thước vuông */
+    height: 70px;
+    object-fit: cover; /* Cắt ảnh vừa khung, không bị méo */
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+.imgPlaceholder {
+    width: 60px;
+    height: 60px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.itemDetails {
+    flex: 1;
+    .itemName {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    .itemMeta {
+        font-size: 12px;
+        color: #777;
+        display: flex;
+        gap: 10px;
+    }
+}
+
+.itemPrice {
+    font-weight: 700;
+    color: #333;
+}
+
+.divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+
+.totalSection {
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #555;
+
+        &.finalTotal {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-top: 10px;
+            border-top: 1px dashed #ccc;
+            padding-top: 15px;
+        }
+    }
+}
+
+/* BADGE COLORS (Copy lại từ file cũ để đồng bộ) */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+}
+.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+.paid {
+    background-color: #cce5ff;
+    color: #004085;
+}
+.shipping {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}

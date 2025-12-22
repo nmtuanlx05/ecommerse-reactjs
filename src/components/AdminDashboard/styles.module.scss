@@ -1,0 +1,153 @@
+// Định nghĩa biến màu
+
+$active-bg: #34495e;
+$text-dark: #333;
+$bg-light: #f4f6f8;
+$white: #ffffff;
+
+.dashboardContainer {
+    display: flex;
+    min-height: 100vh;
+}
+
+// === SIDEBAR ===
+.sidebar {
+    width: 260px;
+    background: #333;
+    color: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+}
+
+.logoContainer {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); // Làm mờ border chút cho đẹp
+    text-align: center;
+    cursor: pointer;
+
+    h2 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: 1px;
+    }
+}
+
+.menuList {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.menuItem {
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s ease;
+    color: #bdc3c7; // Màu chữ khi chưa active
+
+    // Icon
+    span {
+        font-size: 18px;
+    }
+
+    // Hover effect (Thay thế cho onMouseEnter/Leave)
+    &:hover {
+        background: $active-bg;
+        color: $white;
+    }
+
+    // Class này sẽ được thêm vào nếu isActive = true
+    &.active {
+        background: $active-bg;
+        color: $white;
+        border-right: 4px solid #3498db;
+    }
+}
+
+.sidebarFooter {
+    margin-top: auto; // Đẩy xuống đáy
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btnReturn {
+    width: 100%;
+    padding: 10px;
+    background: $white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: $text-dark;
+    border-radius: 4px;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+// === CONTENT AREA ===
+.contentArea {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    height: 60px;
+    background: $white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+
+    h4 {
+        margin: 0;
+        color: $text-dark;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+    }
+}
+
+.adminInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    span {
+        font-weight: bold;
+        color: $text-dark;
+    }
+}
+
+.btnLogout {
+    padding: 6px 15px;
+    background: #555;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #333;
+    }
+}
+
+.mainContent {
+    padding: 30px;
+    background: $bg-light;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.textCenter {
+    text-align: center !important; // Dùng !important để chắc chắn nó đè được các style mặc định
+    vertical-align: middle; // Căn giữa theo chiều dọc luôn cho đẹp
+}

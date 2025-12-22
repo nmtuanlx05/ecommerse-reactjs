@@ -13,7 +13,8 @@ function ItemProduct({
     sizeProduct,
     quantity,
     productId,
-    userId
+    userId,
+    type
 }) {
     const {
         container,
@@ -30,10 +31,11 @@ function ItemProduct({
 
     const handleRemoveItem = () => {
         setIsDelete(true);
-        deleteItem({ productId, userId })
+        const currentType = type || 'cart';
+        deleteItem({ productId, userId, type: currentType })
             .then((res) => {
                 setIsDelete(false);
-                handleGetListProductsCart(userId, 'cart');
+                handleGetListProductsCart(userId, currentType);
             })
             .catch((err) => {
                 console.log(err);

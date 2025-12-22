@@ -10,13 +10,17 @@ import Cookies from 'js-cookie';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { StoreContext } from '@/contexts/StoreProvider';
 
+import { useNavigate } from 'react-router-dom';
+
 function Login() {
     const { container, title, boxRememberMe, lostPW } = styles;
     const [isRegister, setIsRegister] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useContext(ToastContext);
     const { setIsOpen, handleGetListProductsCart } = useContext(SideBarContext);
-    const { setUserId } = useContext(StoreContext);
+    const { setUserId, setUserInfo } = useContext(StoreContext);
+
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -45,6 +49,7 @@ function Login() {
                 await register({ username, password })
                     .then((res) => {
                         toast.success(res.data.message);
+                        setIsOpen(false);
                         setIsLoading(false);
                     })
                     .catch((err) => {
@@ -57,16 +62,26 @@ function Login() {
                 await signIn({ username, password })
                     .then((res) => {
                         setIsLoading(false);
-                        const { id, token, refreshToken } = res.data;
+                        const { id, token, refreshToken, role } = res.data;
                         setUserId(id);
                         Cookies.set('userId', id);
                         Cookies.set('token', token);
                         Cookies.set('refreshToken', refreshToken);
+
+                        console.log('userId:', id); // ✅ Thêm dòng này để debug
+
                         toast.success('Sign in successfully!');
                         setIsOpen(false);
                         handleGetListProductsCart(id, 'cart');
+
+                        if (role === 'admin') {
+                            navigate('/admin');
+                        } else {
+                            navigate('/');
+                        }
                     })
                     .catch((err) => {
+                        console.log(err);
                         setIsLoading(false);
                     });
             }

@@ -1,7 +1,9 @@
 import Button from '@components/Button/Button';
 import styles from './styles.module.scss';
+import { useNavigate } from 'react-router-dom';
 function Banner() {
     const { container, content, title, descreption, btnBox } = styles;
+    const naviagte = useNavigate();
     return (
         <div className={container}>
             <div className={content}>
@@ -10,7 +12,7 @@ function Banner() {
                     Make yours celebrations even more special this years with
                     beautiful.
                 </div>
-                <div className={btnBox}>
+                <div className={btnBox} onClick={() => naviagte('/shop')}>
                     <Button content={'Go to shop'} />
                 </div>
             </div>

@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { StoreContext } from '@/contexts/StoreProvider';
+import { useNavigate } from 'react-router-dom';
 
 function MyHeader() {
     const {
@@ -39,6 +40,8 @@ function MyHeader() {
 
     const { userInfo } = useContext(StoreContext);
 
+    const navigate = useNavigate();
+
     const handleOpenSideBar = (type) => {
         setIsOpen(true);
         setType(type);
@@ -49,11 +52,17 @@ function MyHeader() {
         handleOpenSideBar('cart');
     };
 
+    // Tính tổng số lượng
     const totalItemCart = listProductCart.length
         ? listProductCart.reduce((acc, item) => {
               return (acc += item.quantity);
           }, 0)
         : 0;
+    useEffect(() => {
+        if (userId) {
+            handleGetListProductsCart(userId, 'cart');
+        }
+    }, [userId]);
 
     useEffect(() => {
         setFixedPosition(scrollPosition > 90 ? true : false);
@@ -68,30 +77,40 @@ function MyHeader() {
             <div className={containerHeader}>
                 <div className={containerBox}>
                     <div className={containerBoxIcon}>
-                        {dataBoxIcon.map((item) => (
-                            <BoxIcon type={item.type} href={item.href} />
+                        {dataBoxIcon.map((item, index) => (
+                            <BoxIcon
+                                key={index}
+                                type={item.type}
+                                href={item.href}
+                            />
                         ))}
                     </div>
                     <div className={containerMenu}>
-                        {dataMenu.slice(0, 3).map((item) => (
-                            <Menu content={item.content} href={item.href} />
+                        {dataMenu.slice(0, 3).map((item, index) => (
+                            <Menu
+                                key={index}
+                                content={item.content}
+                                href={item.href}
+                            />
                         ))}
                     </div>
                 </div>
-                <div>
+                <div onClick={() => navigate('/')}>
                     <img
                         src={logo}
                         alt='Logo'
                         style={{
                             width: '153px',
-                            height: '53px'
+                            height: '53px',
+                            cursor: 'pointer'
                         }}
                     />
                 </div>
                 <div className={containerBox}>
                     <div className={containerMenu}>
-                        {dataMenu.slice(3, 6).map((item) => (
+                        {dataMenu.slice(3, 6).map((item, index) => (
                             <Menu
+                                key={index}
                                 content={item.content}
                                 href={item.href}
                                 setIsOpen={setIsOpen}
@@ -114,9 +133,16 @@ function MyHeader() {
                                 style={{ fontSize: '25px', cursor: 'pointer' }}
                                 onClick={() => handleOpenCartSidebar()}
                             />
+
+                            {/* --- ĐOẠN SỬA --- */}
                             <div className={quantity}>
-                                {totalItemCart || userInfo?.amountCart || 0}
+                                {/* Kiểm tra: Nếu listProductCart là mảng (đã load state) -> Dùng totalItemCart. 
+                                    Ngược lại mới fallback về userInfo */}
+                                {Array.isArray(listProductCart)
+                                    ? totalItemCart
+                                    : userInfo?.amountCart || 0}
                             </div>
+                            {/* --- HẾT ĐOẠN SỬA --- */}
                         </div>
                     </div>
                 </div>

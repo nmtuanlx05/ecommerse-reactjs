@@ -14,6 +14,9 @@ function Sidebar() {
     const { boxIcon, container, overlay, sideBar, sliderSideBar } = styles;
 
     const { isOpen, setIsOpen, type } = useContext(SideBarContext);
+    if (type === 'search') {
+        return null;
+    }
 
     const handleToggle = () => {
         setIsOpen(!isOpen);

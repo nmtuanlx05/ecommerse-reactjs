@@ -52,7 +52,8 @@ function DetailProduct() {
         clear,
         activeDisabled,
         loading,
-        isEmpty
+        isEmpty,
+        btnBack
     } = styles;
     const srcMethods = [
         'https://xstore.8theme.com/elementor2/marseille04/wp-content/themes/xstore/images/woocommerce/payment-icons/visa.jpeg',
@@ -193,6 +194,10 @@ function DetailProduct() {
             });
     };
 
+    const handleNavigateToHome = () => {
+        navigate('/');
+    };
+
     useEffect(() => {
         if (param.id) {
             fetchDataDetail(param.id);
@@ -207,8 +212,19 @@ function DetailProduct() {
             <div className={container}>
                 <MainLayout>
                     <div className={navigateSection}>
-                        <div>Home {'>'} Men</div>
-                        <div style={{ cursor: 'pointer' }}>
+                        <div>
+                            <span
+                                onClick={handleNavigateToHome}
+                                className={btnBack}
+                            >
+                                Home
+                            </span>{' '}
+                            &gt; Men
+                        </div>
+                        <div
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => navigate(-1)}
+                        >
                             {'<'} Return to previous page
                         </div>
                     </div>
@@ -387,7 +403,7 @@ function DetailProduct() {
                                                 Brand: <span>Brand 03</span>
                                             </div>
                                             <div>
-                                                SKU: <span>12345</span>
+                                                SKU: <span>{data.SKU}</span>
                                             </div>
                                             <div>
                                                 Category: <span>Men</span>

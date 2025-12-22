@@ -8,4 +8,8 @@ const getDetailOrder = async (id) => {
     return await axiosClient.get(`/orders/${id}`);
 };
 
+export const getMyOrders = async () => {
+    return await axiosClient.get('/orders');
+};
+
 export { createOrder, getDetailOrder };

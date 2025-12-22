@@ -8,34 +8,42 @@ function InputCustom({
     register,
     isShowLabel = true,
     placeholder = label,
-    isError = false
+    isError = false,
+    ...props
 }) {
     const { container, labelCLS, error } = styles;
 
     const renderInput = () => {
-        if (type === 'text') {
+        //  Nếu type là 'select' thì mới render Select Box
+        if (type === 'select') {
             return (
-                <input
+                <select
                     className={isError ? error : ''}
-                    type='text'
-                    placeholder={placeholder}
                     {...register}
-                />
-            );
-        } else {
-            return (
-                <select {...register} className={isError ? error : ''}>
-                    <option value='' selected disabled hidden>
+                    {...props}
+                >
+                    <option value='' disabled hidden>
                         {label}
                     </option>
-                    {dataOptions.map((item) => (
-                        <option key={item.value} value={item.value}>
+                    {dataOptions?.map((item, index) => (
+                        <option key={index} value={item.value}>
                             {item.label}
                         </option>
                     ))}
                 </select>
             );
         }
+
+        //  Các trường hợp còn lại (text, email, password, number...) thì render Input
+        return (
+            <input
+                className={isError ? error : ''}
+                type={type} //  Dùng biến type truyền vào thay vì hardcode 'text'
+                placeholder={placeholder}
+                {...register}
+                {...props}
+            />
+        );
     };
     return (
         <div className={container}>

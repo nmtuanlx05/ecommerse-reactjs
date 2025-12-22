@@ -12,6 +12,11 @@ function Menu({ content, href }) {
     const naviage = useNavigate();
 
     const handleClickShowLogin = () => {
+        if (content === 'Search') {
+            setIsOpen(true);
+            setType('search'); // Khớp với logic ở Sidebar và SearchSlideDown
+            return;
+        }
         if (content === 'Sign In' && !userInfo) {
             setIsOpen(true);
             setType('login');
@@ -19,6 +24,13 @@ function Menu({ content, href }) {
 
         if (content === 'Our Shop') {
             naviage('/shop');
+        }
+
+        if (content === 'About us') {
+            naviage('/about-us');
+        }
+        if (content === 'My Orders') {
+            naviage('/my-orders');
         }
     };
 

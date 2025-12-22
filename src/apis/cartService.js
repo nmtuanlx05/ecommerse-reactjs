@@ -4,8 +4,13 @@ const addProductToCart = async (data) => {
     return await axiosClient.post('/cart', data);
 };
 
-const getCart = async (userId) => {
-    return await axiosClient.get(`/cart/${userId}`);
+const getCart = async (userId, type = 'cart') => {
+    // Truyền params: axios sẽ tự nối thành /cart/123?type=wishlist
+    return await axiosClient.get(`/cart/${userId}`, {
+        params: {
+            type: type
+        }
+    });
 };
 
 const deleteItem = async (body) => {

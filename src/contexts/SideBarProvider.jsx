@@ -10,17 +10,32 @@ export const SideBarProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [detailProduct, setDetailProduct] = useState(null);
 
+    const [listWishlist, setListWishlist] = useState([]);
+
     const userId = Cookies.get('userId');
     const handleGetListProductsCart = (userId, type) => {
-        if (userId && type === 'cart') {
+        // type có thể là 'cart' hoặc 'wishlist'
+        if (userId && type) {
             setIsLoading(true);
-            getCart(userId)
+
+            // Gọi API và truyền type vào (để backend biết lấy bảng nào)
+            getCart(userId, type)
                 .then((res) => {
-                    setListProductCart(res.data.data);
+                    // Nếu lấy Giỏ hàng -> Lưu vào listProductCart
+                    if (type === 'cart') {
+                        setListProductCart(res.data.data);
+                    }
+                    // Nếu lấy Wishlist -> Lưu vào listWishlist
+                    else if (type === 'wishlist') {
+                        setListWishlist(res.data.data);
+                    }
                     setIsLoading(false);
                 })
                 .catch((err) => {
-                    setListProductCart([]);
+                    console.log('Lỗi lấy dữ liệu:', err);
+                    // Reset mảng về rỗng nếu lỗi
+                    if (type === 'cart') setListProductCart([]);
+                    if (type === 'wishlist') setListWishlist([]);
                     setIsLoading(false);
                 });
         }
@@ -40,7 +55,9 @@ export const SideBarProvider = ({ children }) => {
                 userId,
                 detailProduct,
                 setDetailProduct,
-                setListProductCart
+                setListProductCart,
+                listWishlist,
+                setListWishlist
             }}
         >
             {children}

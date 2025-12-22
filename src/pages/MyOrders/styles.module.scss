@@ -1,0 +1,161 @@
+.container {
+    max-width: 1140px;
+    margin: 120px auto;
+    padding: 1px 15px;
+    min-height: 70vh;
+    background-color: #e0dede;
+    border-radius: 8px;
+}
+
+.title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.loading {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-top: 50px;
+}
+
+.emptyState {
+    text-align: center;
+    margin-top: 50px;
+
+    p {
+        margin-bottom: 20px;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .btn {
+        width: 200px;
+        margin: 0 auto;
+    }
+}
+
+.tableResponsive {
+    overflow-x: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #c1c1c1;
+
+    thead {
+        background-color: #dfdfdf;
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 700;
+            color: #444;
+            border-bottom: 2px solid #eee;
+            white-space: nowrap;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+
+            &:hover {
+                background-color: #fafafa;
+            }
+        }
+
+        td {
+            padding: 20px 15px;
+            font-size: 14px;
+            color: #555;
+            vertical-align: middle;
+        }
+    }
+}
+
+.orderId {
+    font-weight: 700;
+    color: #222 !important;
+}
+
+.productInfo {
+    max-width: 300px;
+
+    .productName {
+        font-weight: 500;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .moreItems {
+        font-size: 12px;
+        color: #888;
+        font-style: italic;
+    }
+}
+
+.totalPrice {
+    font-weight: 700;
+    color: #e74c3c !important;
+}
+
+// --- BADGE TRẠNG THÁI ---
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.pending {
+    background-color: #fff3cd;
+    color: #856404;
+} // Vàng
+.paid {
+    background-color: #cce5ff;
+    color: #004085;
+} // Xanh dương nhạt
+.shipping {
+    background-color: #d1ecf1;
+    color: #0c5460;
+} // Xanh ngọc
+.completed {
+    background-color: #d4edda;
+    color: #155724;
+} // Xanh lá
+.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+} // Đỏ
+
+.btnDetail {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    border-radius: 4px;
+    transition: all 0.2s;
+
+    &:hover {
+        background: #222;
+        color: #fff;
+        border-color: #222;
+    }
+}
