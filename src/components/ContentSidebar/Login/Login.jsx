@@ -36,54 +36,57 @@ function Login() {
             password: Yup.string()
                 .min(6, 'Password must be at least 6 characters')
                 .required('Password is required'),
-            cfmpassword: Yup.string().oneOf(
-                [Yup.ref('password'), null],
-                'Passwords must match'
-            )
+            cfmpassword: isRegister
+                ? Yup.string()
+                      .required('Confirm password is required')
+                      .oneOf([Yup.ref('password')], 'Passwords must match')
+                : Yup.string() // Nếu đang ở màn Đăng nhập (isRegister = false) thì cho qua luôn
         }),
         onSubmit: async (values) => {
-            if (isLoading) return;
+            if (isLoading) return; // Chặn click nhiều lần
             const { email: username, password } = values;
-            setIsLoading(true);
-            if (isRegister) {
-                await register({ username, password })
-                    .then((res) => {
-                        toast.success(res.data.message);
-                        setIsOpen(false);
-                        setIsLoading(false);
-                    })
-                    .catch((err) => {
-                        toast.error(err.response.data.message);
-                        setIsLoading(false);
-                    });
-            }
 
-            if (!isRegister) {
-                await signIn({ username, password })
-                    .then((res) => {
-                        setIsLoading(false);
-                        const { id, token, refreshToken, role } = res.data;
-                        setUserId(id);
-                        Cookies.set('userId', id);
-                        Cookies.set('token', token);
-                        Cookies.set('refreshToken', refreshToken);
+            setIsLoading(true); // Bật loading bắt đầu xử lý
 
-                        console.log('userId:', id); // ✅ Thêm dòng này để debug
+            try {
+                //  XỬ LÝ ĐĂNG KÝ (REGISTER)
+                if (isRegister) {
+                    const res = await register({ username, password });
+                    toast.success(res.data.message);
+                    setIsOpen(false); // Đóng popup nếu cần
+                    // Không cần setIsLoading(false) ở đây nữa vì đã có finally bên dưới
+                }
 
-                        toast.success('Sign in successfully!');
-                        setIsOpen(false);
-                        handleGetListProductsCart(id, 'cart');
+                //  XỬ LÝ ĐĂNG NHẬP (LOGIN)
+                else {
+                    const res = await signIn({ username, password });
+                    const { id, token, refreshToken, role } = res.data;
 
-                        if (role === 'admin') {
-                            navigate('/admin');
-                        } else {
-                            navigate('/');
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        setIsLoading(false);
-                    });
+                    // Lưu thông tin
+                    setUserId(id);
+                    Cookies.set('userId', id);
+                    Cookies.set('token', token);
+                    Cookies.set('refreshToken', refreshToken);
+
+                    toast.success('Sign in successfully!');
+                    setIsOpen(false);
+
+                    // Lấy giỏ hàng
+                    handleGetListProductsCart(id, 'cart');
+
+                    // Chuyển trang
+                    if (role === 'admin') {
+                        navigate('/admin');
+                    } else {
+                        navigate('/');
+                    }
+                }
+            } catch (err) {
+                toast.error('User already exits!');
+            } finally {
+                //  LUÔN LUÔN TẮT LOADING
+                // Dù thành công hay thất bại (nhảy vào catch), code đều sẽ chạy qua đây
+                setIsLoading(false);
             }
         }
     });
@@ -135,8 +138,8 @@ function Login() {
                         isLoading
                             ? 'LOADING...'
                             : isRegister
-                            ? 'REGISTER'
-                            : 'LOGIN'
+                              ? 'REGISTER'
+                              : 'LOGIN'
                     }
                     className={styles.loginBtn}
                     type='submit'
