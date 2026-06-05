@@ -19,7 +19,14 @@ export default defineConfig({
     css: {
         preprocessorOptions: {
             scss: {
-                api: 'modern-compiler' // Chuyển sang dùng bộ dịch mới nhất của Sass
+                api: 'modern-compiler',
+                silenceDeprecations: ['legacy-js-api', 'import'],
+                includePaths: [
+                    path.resolve(__dirname, 'src/assets/styles'),
+                    path.resolve(__dirname, 'src/components'),
+                    path.resolve(__dirname, 'src/assets/icons'),
+                    path.resolve(__dirname, 'src/assets/images')
+                ]
             }
         }
     }

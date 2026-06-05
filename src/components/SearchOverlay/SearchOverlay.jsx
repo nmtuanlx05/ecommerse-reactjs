@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 // 👇 CHÚ Ý: Kiểm tra kỹ tên file là productService hay productsService (có s hay không)
 import { getProducts } from '@/apis/productsService';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { IoCloseOutline, IoSearchOutline } from 'react-icons/io5';
 import classNames from 'classnames';
 
@@ -266,7 +266,10 @@ const SearchOverlay = () => {
                                         </div>
                                     ))}
                                 </div>
-                                <button className={styles.viewAllBtn}>
+                                <button
+                                    className={styles.viewAllBtn}
+                                    onClick={() => navigate('/shop')}
+                                >
                                     VIEW ALL CATEGORIES
                                 </button>
                             </div>

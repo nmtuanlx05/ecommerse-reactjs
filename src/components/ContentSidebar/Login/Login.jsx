@@ -82,10 +82,16 @@ function Login() {
                     }
                 }
             } catch (err) {
-                toast.error('User already exits!');
+                // Show actual error message from server, or default message
+                const errorMessage =
+                    err?.response?.data?.message ||
+                    (isRegister
+                        ? 'Registration failed. Please try again.'
+                        : 'Login failed. Please check your credentials.');
+                toast.error(errorMessage);
             } finally {
                 //  LUÔN LUÔN TẮT LOADING
-                // Dù thành công hay thất bại (nhảy vào catch), code đều sẽ chạy qua đây
+                // Dù thành công hay thất bại, code đều sẽ chạy qua đây
                 setIsLoading(false);
             }
         }
